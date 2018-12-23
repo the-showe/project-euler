@@ -75,3 +75,10 @@ def fibonacci(n, starters=(1, 2)):
     for i in range(n):
         yield a
         a, b = b, a + b
+
+
+def product(num_list):
+    cumulative = num_list[0]
+    for i in num_list:
+        cumulative *= i
+    return cumulative
