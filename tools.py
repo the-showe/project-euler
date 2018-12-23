@@ -79,6 +79,6 @@ def fibonacci(n, starters=(1, 2)):
 
 def product(num_list):
     cumulative = num_list[0]
-    for i in num_list:
+    for i in num_list[1:]:
         cumulative *= i
     return cumulative
