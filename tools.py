@@ -59,6 +59,7 @@ def get_factors(n):
 
 
 def is_prime(n):
+    # TODO research Robert William Hanks' is_prime solution
     if n == 0 or n == 1:
         return False
 
