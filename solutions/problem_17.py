@@ -1,62 +1,136 @@
 import string
-from tools import run_euler
+from tools import run_euler, DigitalString
 
-keys = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+UNITS = ('one',
+         'two',
+         'three',
+         'four',
+         'five',
+         'six',
+         'seven',
+         'eight',
+         'nine')
 
-units_list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-teens_list = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']
-tens_list = ['ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
+TEENS = ('eleven',
+         'twelve',
+         'thirteen',
+         'fourteen',
+         'fifteen',
+         'sixteen',
+         'seventeen',
+         'eighteen',
+         'nineteen')
 
-units_dict = dict(zip(keys, units_list))
-teens_dict = dict(zip(keys, teens_list))
-tens_dict = dict(zip(keys, tens_list))
+TENS = ('ten',
+        'twenty',
+        'thirty',
+        'forty',
+        'fifty',
+        'sixty',
+        'seventy',
+        'eighty',
+        'ninety')
+
+
+def write_ten_part(digital_string, number_strings):
+
+    # Assign last two digits of digital_string
+    unit_digit = digital_string[-1]
+
+    if len(digital_string) > 1:
+        ten_digit = digital_string[-2]
+    else:
+        ten_digit = '0'
+
+    if unit_digit == '0' and ten_digit == '0':
+        return ''
+    elif unit_digit == '0':
+        return number_strings['tens'][ten_digit]
+    elif ten_digit == '0':
+        return number_strings['units'][unit_digit]
+    elif ten_digit == '1':
+        return number_strings['teens'][unit_digit]
+    else:
+        ten_string = number_strings['tens'][ten_digit]
+        unit_string = number_strings['units'][unit_digit]
+        return '{ten_string}-{unit_string}'.format(ten_string=ten_string,
+                                                   unit_string=unit_string)
+
+
+def write_hundred_part(digital_string, number_strings):
+    if len(digital_string) < 3:
+        raise ValueError(
+            'Digital strings with less than 3 characters '
+            'cannot have a hundred part.'
+        )
+
+    hundred_digit = digital_string[-3]
+
+    if hundred_digit == '0':
+        return ''
+
+    hundred_unit_string = number_strings['units'][hundred_digit]
+
+    return '{hundred_unit_string} hundred'.format(
+        hundred_unit_string=hundred_unit_string)
+
+
+def write_thousand_part(digital_string, number_strings):
+    if len(digital_string) < 4:
+        raise ValueError(
+            'Digital strings with less than 3 characters '
+            'cannot have a thousand part.'
+        )
+
+    thousand_digit = digital_string[-4]
+
+    if thousand_digit == '0':
+        return ''
+
+    thousand_unit_string = number_strings['units'][thousand_digit]
+
+    return '{thousand_unit_string} thousand'.format(
+        thousand_unit_string=thousand_unit_string)
 
 
 def write_number(n):
-    digits = [int(d) for d in str(n)]
+    keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
-    unit = digits[-1]
+    number_strings = {
+        'units': dict(zip(keys, UNITS)),
+        'teens': dict(zip(keys, TEENS)),
+        'tens': dict(zip(keys, TENS))
+    }
 
-    if unit == 0:
-        unit_string = ''
+    if n > 9999:
+        raise ValueError('Solution only functions up to four digits.')
+
+    digital_string = DigitalString(n)
+
+    ten_part = write_ten_part(digital_string, number_strings)
+
+    if len(digital_string) > 2:
+        hundred_part = write_hundred_part(digital_string, number_strings)
     else:
-        unit_string = units[unit - 1]
-    full_string = unit_string
+        hundred_part = ''
 
-    if len(digits) > 1:
-        ten = digits[-2]
+    if len(digital_string) > 3:
+        thousand_part = write_thousand_part(digital_string, number_strings)
+    else:
+        thousand_part = ''
 
-        if ten == 0:
-            ten_string = unit_string
-            full_string = unit_string
-        elif ten == 1 and unit > 0:
-            ten_string = teens[unit - 1]
-            full_string = ten_string
-        else:
-            ten_string = tens[ten - 1]
-            full_string = '{0}-{1}'.format(ten_string,
-                                           unit_string)
+    backward_string_parts = [ten_part]
 
-    if len(digits) > 2:
-        hundred = digits[-3]
+    if ten_part and (hundred_part or thousand_part):
+        backward_string_parts.append('and')
 
-        if hundred == 0:
-            full_string = ten_string
-        else:
-            full_string = '{0} hundred and {1}'.format(units[hundred - 1], full_string)
+    if hundred_part:
+        backward_string_parts.append(hundred_part)
 
-    if len(digits) > 3:
-        thousand = digits[-4]
+    if thousand_part:
+        backward_string_parts.append(thousand_part)
 
-        full_string = '{0} thousand and {1}'.format(units[thousand - 1], full_string)
-
-    if full_string.endswith(' and '):
-        full_string = full_string.replace(' and ', '')
-
-    if full_string.endswith('-'):
-        full_string = full_string.replace('-', '')
-
-    return full_string
+    return ' '.join(backward_string_parts[::-1])
 
 
 def count_letters(s):
@@ -69,6 +143,5 @@ def count_letters_used_up_to(n):
     written_numbers = [write_number(i) for i in range(1, n + 1)]
     letter_counts = [count_letters(s) for s in written_numbers]
     return sum(letter_counts)
-
 
 count_letters_used_up_to(1000)
