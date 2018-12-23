@@ -1,5 +1,6 @@
 from tools import get_factors, get_triangle_number, run_euler
 
+
 @run_euler
 def get_triangle_with_factors_more_than(i):
     n = 1
