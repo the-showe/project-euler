@@ -1,11 +1,15 @@
 import string
 from tools import run_euler
 
-units = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+keys = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']
+units_list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+teens_list = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']
+tens_list = ['ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
 
-tens = ['ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
+units_dict = dict(zip(keys, units_list))
+teens_dict = dict(zip(keys, teens_list))
+tens_dict = dict(zip(keys, tens_list))
 
 
 def write_number(n):
