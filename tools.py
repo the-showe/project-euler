@@ -63,3 +63,10 @@ def is_prime(n):
         if n % i == 0:
             return False
     return True
+
+
+def fibonacci(n, starters=(1, 2)):
+    a, b = starters
+    for i in range(n):
+        yield a
+        a, b = b, a + b
