@@ -144,4 +144,5 @@ def count_letters_used_up_to(n):
     letter_counts = [count_letters(s) for s in written_numbers]
     return sum(letter_counts)
 
+
 count_letters_used_up_to(1000)
