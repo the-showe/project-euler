@@ -17,8 +17,8 @@ def get_prime_factors(n):
 
 
 @run_euler
-def get_larget_prime_factor(n):
+def get_largest_prime_factor(n):
     return max(get_prime_factors(n))
 
 
-get_larget_prime_factor(600851475143)
+get_largest_prime_factor(600851475143)
