@@ -9,7 +9,7 @@ Find the thirteen adjacent digits in the 1000-digit number
 that have the greatest product. What is the value of this product?
 """
 
-from tools import run_euler, DigitalString, product
+from tools import run_euler, DigitalString, get_slices, product
 
 PROBLEM_NUMBER = DigitalString('''\
 73167176531330624919225119674426574742355349194934\
@@ -38,8 +38,9 @@ PROBLEM_NUMBER = DigitalString('''\
 @run_euler
 def get_biggest_product_of_n_adjacent_digits(digital_string, n):
     products = []
-    for i in range(len(digital_string) - n):
-        slice = digital_string[i: i + n]
+    slices = get_slices(digital_string, n)
+
+    for slice in slices:
         slice_ints = [int(i) for i in slice]
         products.append(product(slice_ints))
 

@@ -97,3 +97,10 @@ def product(num_list):
     for i in num_list[1:]:
         cumulative *= i
     return cumulative
+
+
+def get_slices(iterable, length):
+    slices = []
+    for i in range(len(iterable) - length):
+        slices.append(iterable[i: i + length])
+    return slices
