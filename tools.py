@@ -58,16 +58,31 @@ def get_factors(n):
     return set(factors)
 
 
+def prime_numbers(limit=1000000):
+    """
+    Copied from https://stackoverflow.com/a/2901856
+
+    Prime number generator. Yields the series
+    2, 3, 5, 7, 11, 13, 17, 19, 23, 29 ...
+    using Sieve of Eratosthenes.
+    """
+
+    yield 2
+    sub_limit = int(limit**0.5)
+    flags = [True, True] + [False] * (limit - 2)
+    # Step through all the odd numbers
+    for i in range(3, limit, 2):
+        if flags[i]:
+            continue
+        yield i
+        # Exclude further multiples of the current prime number
+        if i <= sub_limit:
+            for j in range(i * i, limit, i << 1):
+                flags[j] = True
+
+
 def is_prime(n):
-    # TODO research Robert William Hanks' is_prime solution
-    if n == 0 or n == 1:
-        return False
-
-    for i in range(2, n):
-        if n % i == 0:
-            return False
-
-    return True
+    return n in prime_numbers(limit=n + 1)
 
 
 def fibonacci(n, starters=(1, 2)):
