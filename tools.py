@@ -105,3 +105,110 @@ def get_slices(iterable, length):
     for i in range(len(iterable) - length):
         slices.append(iterable[i: i + length])
     return slices
+
+
+class NumberGrid(list):
+    def __init__(self, ls):
+        super().__init__()
+        self.grid = ls
+        self.validate()
+
+    def validate(self):
+        # Check grid is type list
+        if not isinstance(self.grid, list):
+            raise TypeError(
+                'Input must be list of lists. '
+                '{list_type} was passed.'.format(
+                    list_type=type(self.grid)
+                )
+            )
+
+        # Check all rows are lists
+        for row in self.grid:
+            if not isinstance(row, list):
+                raise TypeError(
+                    'Input must be list of lists. '
+                    'Non-list types were detected in list:\n{row}'.format(
+                        row=row
+                    )
+                )
+
+        # Check all values are int or float
+        for row in self.grid:
+            for value in row:
+                if not (isinstance(value, int) or isinstance(value, float)):
+                    raise TypeError(
+                        'Each value must be int or float. '
+                        'Other types were detected in row:\n{value}'.format(
+                            value=value
+                        )
+                    )
+
+        # Check all row lengths are equal
+        row_lengths = [len(row) for row in self.grid]
+        if not len(set(row_lengths)) == 1:
+            raise ValueError('All row lengths must be equal:\n'
+                             '{row_lengths}'.format(row_lengths=row_lengths))
+
+    def __str__(self):
+        return '\n'.join([str(row) for row in self.grid])
+
+    def rows(self):
+        return self.grid
+
+    def columns(self):
+        columns = []
+        row_length = len(self.grid[0])
+
+        for col_number in range(row_length):
+            column = [row[col_number] for row in self.grid]
+            columns.append(column)
+
+        return columns
+
+    @property
+    def num_rows(self):
+        return len(self.rows())
+
+    @property
+    def num_columns(self):
+        return len(self.columns())
+
+    def _get_diagonal(self, start_row_num, start_column_num, direction='right'):
+        if not (start_column_num == 0 or start_row_num == 0):
+            raise ValueError(
+                'Either start_row_num or start_column_num must be 0.')
+
+        if direction == 'right':
+            col_num = start_column_num
+            col_increment = 1
+        elif direction == 'left':
+            col_num = self.num_columns - start_column_num - 1
+            col_increment = -1
+        else:
+            raise ValueError("direction must be either 'left' or 'right'.")
+
+        row_range = list(range(start_row_num, self.num_rows))
+
+        diagonal_values = []
+        for row_num in row_range:
+            diagonal_values.append(self.grid[row_num][col_num])
+
+            col_num += col_increment
+
+            if col_num >= self.num_columns:
+                break
+
+        return diagonal_values
+
+    def diagonals(self, direction='right'):
+        row_starts = [(row_num, 0) for row_num in range(len(self.grid))[::-1]]
+        col_starts = [(0, col_num) for col_num in range(len(self.grid[0]))
+                      if col_num > 0]
+
+        start_coords = row_starts + col_starts
+
+        diagonals = [self._get_diagonal(coord[0], coord[1], direction)
+                     for coord in start_coords]
+
+        return diagonals
