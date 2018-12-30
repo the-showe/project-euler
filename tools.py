@@ -23,7 +23,8 @@ class DigitalString(str):
         super().__init__()
         self.number = n
 
-        if not any(isinstance(self.number, test_type) for test_type in (int, str)):
+        if not any(isinstance(self.number, test_type)
+                   for test_type in (int, str)):
             raise TypeError(
                 'Input must be either int or str. '
                 '{number_type} was passed.'.format(
