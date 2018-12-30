@@ -16,8 +16,8 @@ def is_palindrome(digital_string):
 
 
 def get_all_n_digit_numbers(n):
-    lower_bound = int('1' + '0' * (n -1))
-    upper_bound = int('1' + '0' * (n))
+    lower_bound = int('1' + '0' * (n - 1))
+    upper_bound = int('1' + '0' * n)
     return range(lower_bound, upper_bound)
 
 
