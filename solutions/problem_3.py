@@ -12,7 +12,8 @@ from tools import run_euler, prime_numbers, get_factors
 
 def get_prime_factors(n):
     factors = get_factors(n)
-    prime_factors = [f for f in factors if f in prime_numbers()]
+    primes = list(prime_numbers())
+    prime_factors = [f for f in factors if f in primes]
     return prime_factors
 
 
