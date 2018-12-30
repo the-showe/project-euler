@@ -8,22 +8,13 @@ we can see that the 6th prime is 13.
 What is the 10 001st prime number?
 """
 
-from tools import run_euler, is_prime
+from tools import run_euler, prime_numbers
 
 
 @run_euler
 def get_nth_prime(n):
-    num_primes_found = 0
-    i = 0
-
-    while True:
-        if is_prime(i):
-            num_primes_found += 1
-
-        if num_primes_found == n:
-            return i
-
-        i += 1
+    primes = list(prime_numbers())
+    return primes[n - 1]
 
 
 get_nth_prime(10001)
