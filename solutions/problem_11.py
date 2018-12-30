@@ -186,4 +186,3 @@ def get_largest_product_of_n_adjacent_numbers(grid, n):
 
 
 get_largest_product_of_n_adjacent_numbers(GRID, 4)
-# 70600674
