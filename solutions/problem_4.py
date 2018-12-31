@@ -11,8 +11,8 @@ Find the largest palindrome made from the product of two 3-digit numbers.
 from tools import run_euler, DigitalString
 
 
-def is_palindrome(digital_string):
-    return digital_string == digital_string[::-1]
+def is_palindrome(s):
+    return s == s[::-1]
 
 
 def get_all_n_digit_numbers(n):
