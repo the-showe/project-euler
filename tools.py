@@ -44,6 +44,12 @@ class DigitalString(str):
     def __str__(self):
         return self.digital_string
 
+    def to_list(self):
+        return list(self.digital_string)
+
+    def to_ints(self):
+        return [int(d) for d in self.digital_string]
+
 
 def get_triangle_number(n):
     return int(n * (n + 1) / 2)
